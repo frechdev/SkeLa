@@ -171,7 +171,7 @@ class ConstructionPlanWriter:
         version_str=VersionHelper.version_to_str(maj, min, patch, rev)
 
         watermark_text_1 = f'Created with SkeLa v{version_str}'
-        watermark_text_2 = '(https://github.com/frechdaggs/SketchLang)'
+        watermark_text_2 = '(https://github.com/frechdev/SkeLa/tree/master/src)'
         
         plan_border_content_list.append(f'<text class="watermark-text" x="{margin}" y="{margin + plan_border_heigth + 10}">{watermark_text_1}<tspan x="{margin}" dy="10">{watermark_text_2}</tspan></text>')
 
