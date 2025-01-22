@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "#0000",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/SketchLang.py",
+            "console": "integratedTerminal",
+            "args": [
+                "test/test_#0000.skela",
+                "--svg"
+            ]
+        },
+        {
+            "name": "#0000 debug",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/SketchLang.py",
+            "console": "integratedTerminal",
+            "args": [
+                "test/test_#0000.skela",
+                "--debug",
+                "--svg"
+            ]
+        },
+    ]
+}

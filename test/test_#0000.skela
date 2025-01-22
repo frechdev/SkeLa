@@ -1,0 +1,74 @@
+SETTINGS {
+    page_size: A4,
+    scale_divisor: 75,
+    compass_rotation: 45,
+    version: v00.01
+}
+
+# Metadaten
+META_INFORMATION { title: Version, content: v00.00 }
+META_INFORMATION { title: Deckenhöhe, layer: 1-EG, content: 240 }
+META_INFORMATION { title: debug, is_debug: true, content: "true" }
+META_INFORMATION { title: Objekt, content: Musterstr. 666 }
+
+OUTLINE {
+    id: Haus, layer: 1-EG,
+    points: [
+        (0 0), (730 0), (730 1020), (430 1020), (430 870), (0 870)
+    ]
+}
+
+# EG1
+ROOM {
+    id: WZ, layer: 1-EG, position: (Haus-1)+(25 25),
+    points: [
+        (0 0),
+        (464 0),
+        (464 380),
+        (0 380)
+    ]
+}
+ROOM { id: EZ, layer: 1-EG, position: (WZ-4)+(0 12), points: [(0 0), (460 0), (460 100), (400 100), (400 428), (0 428) ] }
+ROOM { id: Flur, layer: 1-EG, position: (EZ-3)+(12 0), points: [(0 0), (0 -360), (224 -360), (224 0) ] }
+
+OPENING { 
+    id: RC-EZ-Flur, layer: 1-EG, position: (EZ-2)+(-2 0), 
+    points: [
+        (0 0),
+        (16 0),
+        (16 100),
+        (0 100)
+    ]
+}
+
+OPENING_ARC { id: OA-EZ-Flur, layer: 1-EG, position: (RC-EZ-Flur-1)+(0 5), points: [(0 0), (-90 0), (0 90) ] }
+
+STAIRS { id: ST-EG, layer: 1-EG, position: (Flur-3), points: [(0 0), (0 360), (-120 360), (-120 240), (-100 240), (-100 120), (-120 120), (-120 0) ] }
+STEPS { id: STP-EG-OG1, layer: 1-EG, position: (ST-EG-8), points: [(0 0), (20 0), (120 120), (120 140), (120 160), (20 160), (20 140), (20 120), (20 120), (0 120) ] }
+STEPS { id: STP-EG-UG, layer: 1-EG, position: (ST-EG-3), inverted_running_dir: True, points: [(0 0), (30 0), (60 0), (90 0), (120 -120), (120 -140), (120 -160), (20 -160), (20 -140), (20 -120), (20 -120), (15 -120), (10 -120), (0 -120) ] }
+
+LABEL { layer: 1-EG, position: (WZ-1)+(30 50), content: Wohnzimmer }
+LABEL { layer: 1-EG, position: (EZ-LEFT)+(10 0), content: Esszimmer }
+
+DIM { dir: x, layer: 1-EG, offset: 40, point1: (Haus-2), point2: (Haus-1) }
+DIM { dir: x, layer: 1-EG, point1: (Haus-2), point2: (Haus-1) }
+DIM { dir: y, layer: 1-EG, offset: 40, point1: (Haus-3), point2: (Haus-2) }
+DIM { dir: y, layer: 1-EG, point1: (Haus-3), point2: (Haus-2) }
+DIM { dir: x, layer: 1-EG, offset: 40, point1: (Haus-4), point2: (Haus-3) }
+DIM { dir: x, layer: 1-EG, point1: (Haus-4), point2: (Haus-3) }
+DIM { dir: y, layer: 1-EG, offset: 40, point1: (Haus-5), point2: (Haus-4) }
+DIM { dir: y, layer: 1-EG, point1: (Haus-5), point2: (Haus-4) }
+DIM { dir: x, layer: 1-EG, offset: 40, reference: (Haus-4), point1: (Haus-6), point2: (Haus-4) }
+DIM { dir: y, layer: 1-EG, offset: 40, point1: (Haus-1), point2: (Haus-6) }
+
+ZDIM { layer: 1-EG, position: (EZ-CENTER), lower_height: 0, upper_height: 240 }
+
+FURNITURE { id: Flur, layer: 1-EG, label: Sofa, position: (WZ-4)+(10 -10), points: [(0 0), (0 -120), (80 -120), (80 -80), (120 -80), (120 0) ] }
+
+KNX_TOUCH_SENSOR { id: KNX-TS-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 30)}
+KNX_TEMPERATURE_SENSOR { id: KNX-TEMPS-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 90)}
+SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 140)}
+SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 180), multiplicity: 2}
+SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 220), multiplicity: 3}
+SOCKET_DATA { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 260)}
+
