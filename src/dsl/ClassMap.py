@@ -10,8 +10,12 @@ from model.Settings import Settings
 from model.Stairs import Stairs
 from model.Steps import Steps
 from model.ZDimension import ZDimension
+from model.electrical_nodes.KNXHumiditySensor import KNXHumiditySensor
 from model.electrical_nodes.KNXTouchSensor import KNXTouchSensor
 from model.electrical_nodes.KNXTemperatureSensor import KNXTemperatureSensor
+from model.electrical_nodes.KNXBusInterface import KNXBusInterface
+from model.electrical_nodes.LightConnection import LightConnection
+from model.electrical_nodes.SocketKoax import SocketKoax
 from model.electrical_nodes.SocketPower import SocketPower
 from model.electrical_nodes.SocketData import SocketData
 
@@ -31,6 +35,10 @@ class_map = {
         "FURNITURE": Furniture,
         "KNX_TOUCH_SENSOR": KNXTouchSensor,
         "KNX_TEMPERATURE_SENSOR": KNXTemperatureSensor,
+        "KNX_HUMIDITY_SENSOR": KNXHumiditySensor,
+        "KNX_BUS_INTERFACE": KNXBusInterface,
         "SOCKET_POWER": SocketPower,
         "SOCKET_DATA": SocketData,
+        "SOCKET_KOAX": SocketKoax,
+        "LIGHT_CONNECTION": LightConnection,
     }

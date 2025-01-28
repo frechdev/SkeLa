@@ -11,6 +11,34 @@ class DSLInterpreter:
     
     registry = {}
 
+    @staticmethod
+    def is_string(value:str) -> bool:
+        return value.startswith('"') and value.endswith('"') or value.startswith("'") and value.endswith("'")
+    
+    @staticmethod
+    def is_integer(value:str) -> bool:
+        try:
+            int(value)
+            return True
+        except ValueError:
+            return False
+
+    @staticmethod
+    def is_float(value:str) -> bool:
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
+
+    @staticmethod
+    def is_point(value:str) -> bool:
+        return value.startswith("(") and value.endswith(")")
+    
+    @staticmethod
+    def is_anchor(value:str) -> bool:
+        return value.startswith(">")
+    
     def __init__(self):
         self.constructionPlanSet = ConstructionPlanSet()
 
@@ -132,20 +160,25 @@ class DSLInterpreter:
 
 
         value = value.strip()
-        if value.startswith('"') and value.endswith('"'):
-            return value[1:-1]
-        if value.startswith("'") and value.endswith("'"):
-            return value[1:-1]
-        if value.startswith("(") and value.endswith(")"):
-            return self.parse_point(value)
-        if value.startswith(">"):
-            return Anchor[value[1:]]
-        if value.isdigit():
-            return int(value)
         
+        foo = DSLInterpreter.is_string(value)
         
-        return value
+        match True:
+            case _ if DSLInterpreter.is_string(value):
+                return value[1:-1]
+            case _ if DSLInterpreter.is_point(value):
+                return self.parse_point(value)
+            case _ if DSLInterpreter.is_anchor(value):
+                return Anchor[value[1:]]
+            case _ if DSLInterpreter.is_integer(value):
+                return int(value)
+            case _ if DSLInterpreter.is_float(value):
+                return float(value)
+            case _:
+                return value
+        
 
+    
     def parse_point(self, point_command:str) -> np.array:
         point_str_list = point_command.split('+')
         

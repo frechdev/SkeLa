@@ -28,19 +28,24 @@ class Shape(ReferenceableComponent, ABC):
 
         return debug_components
 
-    def get_global_position(self) -> np.ndarray:
-        return self.position
-
-    def get_boundry(self) -> Tuple[np.ndarray, np.ndarray]:
+    def get_global_boundry(self) -> Tuple[np.ndarray, np.ndarray]:
         translated_points = self.translate_point_list_to_position(self.points)
         
         translated_points_array = np.array(translated_points)
         min_coords = translated_points_array.min(axis=0)
         max_coords = translated_points_array.max(axis=0)
-        
 
         return min_coords, max_coords
     
+    def get_global_anchor_position(self, anchor:Anchor) -> np.ndarray:
+        min_coords, max_coords = self.get_global_boundry()
+
+        boundry_vector = max_coords - min_coords
+        
+        global_anchor_position = (np.array(anchor.value) * boundry_vector) + min_coords
+        
+        return global_anchor_position
+
     def get_svg_string(self, scale_divisor:int) -> str:
         rel_points = self.translate_point_list_to_position(self.points)
              

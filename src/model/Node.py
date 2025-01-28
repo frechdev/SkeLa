@@ -3,31 +3,48 @@ from enum import Enum, auto
 from typing import Tuple
 import numpy as np
 from exceptions.NotImplementedException import NotImplementedException
+from exceptions.ValidationError import ValidationError
 from helper import PlanCalculations
+from model.PlanComponent import PlanComponent
 from model.ReferenceableComponent import Anchor, ReferenceableComponent
 
     
 
 class Node(ReferenceableComponent, ABC):
     anchor:Anchor
+    rotation:int = 0
+    _original_width:int
+    _original_height:int
+
+
+    def get_global_boundry(self) -> Tuple[np.ndarray, np.ndarray]:
+        return super().get_global_boundry()
+
+    def get_global_anchor_position(self, anchor:Anchor):
+        relative_boundry_vector = np.array([self._original_width, self._original_height])
+        
+        non_rotated_relative_anchor_position = (np.array(anchor.value) - np.array(self.anchor.value)) * relative_boundry_vector
+        
+        non_rotated_relative_anchor_position = PlanCalculations.invert_y(non_rotated_relative_anchor_position)
+        
+        rotation_mat = PlanCalculations.rotation_matrix(self.rotation)
+        rotated_anchor_position = np.dot(non_rotated_relative_anchor_position, rotation_mat)
+
+        global_anchor_position = self.position + rotated_anchor_position
+        return global_anchor_position
     
-    def get_global_position(self) -> np.ndarray:
-        base_anchor_offset = np.array(self.anchor.value) * np.array(self.get_size())
-        global_position = self.position - base_anchor_offset
-
-        return global_position
+    def get_svg_string(self, scale_divisor):
+        non_rotated_relative_anchor_position = np.array(self.anchor.value) * np.array([self._original_width, self._original_height])
+                
+        transformed_position = PlanComponent.transform_point_for_plan(self.position, scale_divisor)
         
-    def get_boundry(self) -> Tuple[np.ndarray, np.ndarray]:
-        width, height = self.get_size()
+        svg_string = f'<use href="#{type(self).__name__}-Node" transform="translate({transformed_position[0]} {transformed_position[1]}) rotate({self.rotation}) scale({PlanCalculations.cm_to_dots(1/scale_divisor)}) translate({-non_rotated_relative_anchor_position[0]} {-non_rotated_relative_anchor_position[1]})"/>'
         
-        x_min = self.get_global_position()[0]
-        x_max = x_min + width
+        return svg_string
+
+    def validate(self):
+        if not isinstance(self.rotation, int):
+            raise ValidationError(f"Attribute 'rotation' must be an integer number.")
+
         
-        y_min = self.get_global_position()[1]
-        y_max = y_min + height
-
-        return np.array([x_min, y_min]), np.array([x_max, y_max])
-
-    @abstractmethod
-    def get_size(self) -> Tuple[int, int]:
-        raise NotImplementedException(self.get_size.__name__, type(self).__name__)
+        return super().validate()

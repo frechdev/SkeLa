@@ -1,6 +1,7 @@
 import math
 
 import numpy as np
+from svgwriter.PlanType import PlanType
 import helper.SVGHelper as SVGHelper
 from model.PlanComponent import PlanComponent
 from model.Shape import Shape
@@ -8,6 +9,7 @@ from model.Shape import Shape
 
 class Steps(Shape):
     inverted_running_dir:bool = False
+    plan_belonging = PlanType.OVERVIEW
     
     def get_svg_string(self, scale_divisor):
         rel_points = self.translate_point_list_to_position(self.points)

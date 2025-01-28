@@ -1,7 +1,7 @@
 from model.electrical_nodes.ElectricalNode import ElectricalNode
 
 
-class SocketData(ElectricalNode):
+class LightConnection(ElectricalNode):
     '''
     Symbol-Source: https://gallery.proficad.com/schaltzeichen
     '''
@@ -18,8 +18,9 @@ class SocketData(ElectricalNode):
             definition_string_list.append(super_svg_definition_string)
 
         definition_string_list.append(f'<symbol id="{type(self).__name__}-Node">')
-        definition_string_list.append(f'<line x1="0" y1="10" x2="10" y2="10" stroke="black" stroke-width="{stroke_width}px" />')
-        definition_string_list.append(f'<path d="M10 20 L20 0 10 0 10 20 20 20 10 0" fill="none" stroke="black" stroke-width="{stroke_width}px" />')
+        definition_string_list.append(f'<circle cx="10" cy="10" r="10" fill="none" stroke="black" stroke-width="{stroke_width}px" />')
+        definition_string_list.append(f'<line x1="0" y1="0" x2="20" y2="20" stroke="black" stroke-width="{stroke_width}px" />')
+        definition_string_list.append(f'<line x1="0" y1="20" x2="20" y2="0" stroke="black" stroke-width="{stroke_width}px" />')
         definition_string_list.append(f'</symbol>')
 
         return '\n'.join(definition_string_list)

@@ -24,3 +24,25 @@ def cm_to_dots(value):
     cm_per_inch = 2.54
 
     return value*dpi/cm_per_inch
+
+def rotation_matrix(angle_degrees: float) -> np.ndarray:
+    """
+    Creates a 2D-rotation matrix for an angle in degrees.
+
+    Parameters:
+    - angle_degrees (float): The rotation angle in degrees.
+
+    Returns:
+    - np.ndarray: The rotation matrix.
+    """
+
+    while angle_degrees < 0:
+        angle_degrees += 360
+
+    angle_radians = np.radians(angle_degrees)
+    cos_theta = np.cos(angle_radians)
+    sin_theta = np.sin(angle_radians)
+    return np.array([
+        [cos_theta, -sin_theta],
+        [sin_theta, cos_theta]
+    ])

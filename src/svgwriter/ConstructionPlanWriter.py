@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from io import BytesIO
 import math
 import numpy as np
@@ -8,15 +7,11 @@ from reportlab.lib.pagesizes import A4, A3
 from svglib.svglib import svg2rlg
 from typing import Dict, List, cast
 from exceptions.InputError import InputError
-from exceptions.NotImplementedException import NotImplementedException
 import helper.VersionHelper as VersionHelper
 import helper.SVGHelper as SVGHelper
 import helper.PlanCalculations as PlanCalculations
 from model.PlanComponent import PlanComponent
-from model.ReferenceableComponent import ReferenceableComponent
 from model.Settings import Settings
-from model.debug.Axes import Axes
-from model.debug.DebugLabel import DebugLabel
 from svgwriter import ZHierarchy
 from model.Shape import Shape
 from model.Component import Component
@@ -47,50 +42,56 @@ class ConstructionPlanWriter:
         self.svg_width = PlanCalculations.cm_to_dots(self.pdf_width)
         self.svg_height = PlanCalculations.cm_to_dots(self.pdf_height)
         
-
-
-    
     def write(self, is_savig_svg:bool):
-        cps = self.constructionPlanSet
+        component_list:List[Component] = []
+        
+        if next((obj for obj in self.constructionPlanSet.component_list if isinstance(obj, MetaInformation) and obj.title == "Seite"), None):
+            raise InputError('Meta-Information with title "Seite" is used internally and forbidden for input.')
+        component_list.append(MetaInformation(title = 'Seite'))
 
-        layers = sorted(cps.get_layers())
+        if next((obj for obj in self.constructionPlanSet.component_list if isinstance(obj, MetaInformation) and obj.title == "Plan"), None):
+            raise InputError('Meta-Information with title "Plan" is used internally and forbidden for input.')
+        component_list.append(MetaInformation(title = 'Plan'))
+
+        if next((obj for obj in self.constructionPlanSet.component_list if isinstance(obj, MetaInformation) and obj.title == "Massstab"), None):
+            raise InputError('Meta-Information with title "Massstab" is used internally and forbidden for input.')
+        component_list.append(MetaInformation(title = 'Massstab', content = f'1 : {self.scale_divisor}'))
         
-        cps.component_list.append(MetaInformation(title = 'Massstab', content = f'1 : {self.scale_divisor}'))
-        
-        
-        plan_components:list[PlanComponent] = list(filter(lambda n: (isinstance(n, PlanComponent)), cps.component_list))
+        if next((obj for obj in self.constructionPlanSet.component_list if isinstance(obj, MetaInformation) and obj.title == "Ebene"), None):
+            raise InputError('Meta-Information with title "Ebene" is used internally and forbidden for input.')
+        component_list.append(MetaInformation(title = 'Ebene'))
+
+        plan_components:list[PlanComponent] = list(filter(lambda n: (isinstance(n, PlanComponent)), self.constructionPlanSet.component_list))
         for plan_component in plan_components:
             debug_components = plan_component.create_debug_components()
             if debug_components:
-                cps.component_list.extend(debug_components)
+                component_list.extend(debug_components)
+        
+        component_list.extend(self.constructionPlanSet.component_list)
 
+        layers = sorted(self.constructionPlanSet.get_layers())
         pdf_buffer = BytesIO()
         pdf_canvas = canvas.Canvas(pdf_buffer, pagesize=self.pagesize)
+        page_counter = 1
         for layer in layers:
             for plan_type in PlanType:
-                layer_meta_information = next((obj for obj in cps.component_list if isinstance(obj, MetaInformation) and obj.title == "Ebene"), None)
-                if layer_meta_information is None:
-                    layer_meta_information = MetaInformation(title = 'Ebene', layer = layer)
-                    cps.component_list.append(layer_meta_information)
+                layer_meta_information = next((obj for obj in component_list if isinstance(obj, MetaInformation) and obj.title == "Ebene"), None)
                 layer_meta_information.content = f'{layer}'
-                layer_meta_information.layer = f'{layer}'
-
                 
-                plan_type_meta_information = next((obj for obj in cps.component_list if isinstance(obj, MetaInformation) and obj.title == "Plan"), None)
-                if plan_type_meta_information is None:
-                    plan_type_meta_information = MetaInformation(title = 'Plan', layer = layer)
-                    cps.component_list.append(plan_type_meta_information)
+                plan_type_meta_information = next((obj for obj in component_list if isinstance(obj, MetaInformation) and obj.title == "Plan"), None)
                 plan_type_meta_information.content = f'{get_clear_name(plan_type)}'
-                plan_type_meta_information.layer = f'{layer}'
-
+                
+                page_counter_meta_information = next((obj for obj in component_list if isinstance(obj, MetaInformation) and obj.title == "Seite"), None)
+                page_counter_meta_information.content = f'{page_counter}'
+                
                 component_list_for_current_plan = list(filter(
                     lambda n: (
                         (n.layer == layer or n.layer is None) and 
                         plan_type in n.plan_belonging and 
                         (self.debug_mode or not n.is_debug)
-                        ), cps.component_list))
+                        ), component_list))
                 
-                svg_content = self.make_svg_content(component_list_for_current_plan, cps.settings)
+                svg_content = self.make_svg_content(component_list_for_current_plan, self.constructionPlanSet.settings)
                 
                 svg_buffer = BytesIO(svg_content.encode('utf-8'))
                 
@@ -100,6 +101,8 @@ class ConstructionPlanWriter:
 
                 if is_savig_svg:
                     self.save_svg(layer, plan_type, svg_buffer)            
+                    
+                    page_counter += 1
 
         pdf_canvas.save()
         
@@ -226,7 +229,7 @@ class ConstructionPlanWriter:
         y_max = -math.inf
 
         shape_component_list:List[Shape] = list(filter(lambda n: isinstance(n, Shape), plan_component_list))
-        boundry_list = list(map(lambda n: n.get_boundry(), shape_component_list))
+        boundry_list = list(map(lambda n: n.get_global_boundry(), shape_component_list))
         min_coords_array = np.array(list(map(lambda n: n[0], boundry_list)))
         max_coords_array = np.array(list(map(lambda n: n[1], boundry_list)))
         min_coords = min_coords_array.min(axis=0)
@@ -248,7 +251,7 @@ class ConstructionPlanWriter:
             body_content_list.append(plan_component.get_svg_string(self.scale_divisor))
                       
             if isinstance(plan_component, Shape):
-                min_coords, max_coords = plan_component.get_boundry()
+                min_coords, max_coords = plan_component.get_global_boundry()
                 
                 x_min_shape = transformed_min_coords[0]
                 x_max_shape = transformed_max_coords[0]

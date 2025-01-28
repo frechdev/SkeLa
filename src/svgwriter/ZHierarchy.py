@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Type
 from exceptions.NotImplementedException import NotImplementedException
 from model.Component import Component
 from model.Dimension import Dimension
@@ -6,6 +6,8 @@ from model.Furniture import Furniture
 from model.ZDimension import ZDimension
 from model.debug.Axes import Axes
 from model.debug.DebugLabel import DebugLabel
+from model.electrical_nodes.ElectricalNode import ElectricalNode
+from model.electrical_nodes.KNXBusInterface import KNXBusInterface
 from model.electrical_nodes.KNXTemperatureSensor import KNXTemperatureSensor
 from model.electrical_nodes.KNXTouchSensor import KNXTouchSensor
 from model.electrical_nodes.SocketData import SocketData
@@ -28,10 +30,7 @@ z_hierarchy = [
     OpeningArc,
     Label,
     Furniture,
-    KNXTemperatureSensor,
-    KNXTouchSensor,
-    SocketPower,
-    SocketData,
+    ElectricalNode,
     Dimension,
     ZDimension,
     DebugLabel,
@@ -39,16 +38,16 @@ z_hierarchy = [
 ]
 
 def sort_by_z_hierarchy(components:List[Component]):
-    
-    undefined_objects = [obj for obj in components if type(obj) not in z_hierarchy]
-    if len(undefined_objects) > 0:
-        raise Exception(f"Type {type(undefined_objects[0])} is not implemented in {z_hierarchy=}")
-    
-    order_map = {cls: index for index, cls in enumerate(z_hierarchy)}
+    def get_z_order(cls: Type) -> int:
+        """Find the position of the class or its nearest parent in z_hierarchy."""
+        for index, z_cls in enumerate(z_hierarchy):
+            if issubclass(cls, z_cls):  # Check if cls is a subclass of z_cls
+                return index
+        raise NotImplementedError(f"Type {cls} is not implemented in {z_hierarchy=}")
 
     sorted_components = sorted(
         components,
-        key=lambda comp: order_map.get(type(comp))
+        key=lambda comp: get_z_order(type(comp))
     )
     
     return sorted_components

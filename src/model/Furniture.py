@@ -6,7 +6,7 @@ from svgwriter.PlanType import PlanType
 
 
 class Furniture(Shape):
-    label:str
+    label:str = ''
     plan_belonging: PlanType = PlanType.FURNITURE
 
     def get_svg_string(self, scale_divisor:int):  

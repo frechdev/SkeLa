@@ -24,27 +24,14 @@ class ReferenceableComponent(PlanComponent, ABC):
     id: str
         
     @abstractmethod
-    def get_global_position(self) -> np.ndarray:
-        raise NotImplementedException(self.get_global_position.__name__, type(self).__name__)
-    
+    def get_global_boundry(self) -> Tuple[np.ndarray, np.ndarray]:
+        '''Returns two vectors to min- and max-Point'''
+        raise NotImplementedException(self.get_global_boundry.__name__, type(self).__name__)
+
     @abstractmethod
-    def get_boundry(self) -> Tuple[np.ndarray, np.ndarray]:
-        raise NotImplementedException(self.get_boundry.__name__, type(self).__name__)
-
     def get_global_anchor_position(self, anchor:Anchor) -> np.ndarray:
-        min_coords, max_coords = self.get_boundry()
-
-        boundry_vector = max_coords - min_coords
+        raise NotImplementedException(self.get_global_anchor_position.__name__, type(self).__name__)
         
-        global_anchor_position = (np.array(anchor.value) * boundry_vector) + min_coords
-        
-        return global_anchor_position
-        
-    def get_relative_anchor_position(self, anchor:Anchor) -> np.ndarray:
-        relative_anchor_position = self.get_global_anchor_position(anchor) - self.get_global_position()
-        
-        return relative_anchor_position
-
     def validate(self):
         if not self.id:
             raise MissingAttributeError('id', __name__)

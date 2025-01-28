@@ -2,7 +2,6 @@ SETTINGS {
     page_size: A4,
     scale_divisor: 75,
     compass_rotation: 45,
-    version: v00.01
 }
 
 # Metadaten
@@ -65,10 +64,38 @@ ZDIM { layer: 1-EG, position: (EZ-CENTER), lower_height: 0, upper_height: 240 }
 
 FURNITURE { id: Flur, layer: 1-EG, label: Sofa, position: (WZ-4)+(10 -10), points: [(0 0), (0 -120), (80 -120), (80 -80), (120 -80), (120 0) ] }
 
-KNX_TOUCH_SENSOR { id: KNX-TS-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 30)}
-KNX_TEMPERATURE_SENSOR { id: KNX-TEMPS-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 90)}
-SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 140)}
-SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 180), multiplicity: 2}
-SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 220), multiplicity: 3}
-SOCKET_DATA { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 260)}
+# SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 30)}
+# SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 60), multiplicity: 2}
+# SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 90), multiplicity: 3}
+# SOCKET_DATA { id: SOCKD-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 120)}
+# SOCKET_KOAX { id: SOCKK-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 150)}# 
 
+# KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-1, layer: 1-EG, rotation: 180, position: (WZ-2)+(0 30)}
+# KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-2, layer: 1-EG, anchor: >RIGHT, rotation: 0, position: (WZ-2)+(0 60)}
+# KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-3, layer: 1-EG, anchor: >TOP, rotation: 90, position: (WZ-2)+(0 90)}
+# KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-4, layer: 1-EG, rotation: 180, position: (WZ-2)+(0 0)}
+# KNX_TEMPERATURE_SENSOR { id: KNX-TEMPS-WZ-N, layer: 1-EG, anchor: >RIGHT, position: (KNX-BI-WZ-N-4-RIGHT)}
+# KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-5, layer: 1-EG, position: (WZ-2)+(0 150)}
+# KNX_TEMPERATURE_SENSOR { id: KNX-TEMPS-WZ-N, layer: 1-EG, position: (KNX-BI-WZ-N-5-RIGHT)}# 
+
+# KNX_BUS_INTERFACE { id: KNX-BI-EZ-N-1, layer: 1-EG, position: (EZ-1)+(0 30)}
+# KNX_TOUCH_SENSOR { id: KNX-TS-EZ-N, layer: 1-EG, position: (KNX-BI-EZ-N-1-RIGHT)}
+# KNX_BUS_INTERFACE { id: KNX-BI-EZ-N-2, layer: 1-EG, position: (EZ-1)+(0 60)}
+# KNX_TEMPERATURE_SENSOR { id: KNX-TempS-EZ-N, layer: 1-EG, position: (KNX-BI-EZ-N-2-RIGHT)}
+# KNX_HUMIDITY_SENSOR { id: KNX-HumS-EZ-N, layer: 1-EG, position: (KNX-TempS-EZ-N-RIGHT)}
+# KNX_BUS_INTERFACE { id: KNX-BI-EZ-N-3, layer: 1-EG, position: (EZ-1)+(0 90)}
+# KNX_TEMPERATURE_SENSOR { id: KNX-TS-EZ-N-3, layer: 1-EG, has_controller: True, position: (KNX-BI-EZ-N-3-RIGHT)}
+# LIGHT_CONNECTION { id: L-EZ-1, layer: 1-EG, position: (EZ-1)+(100 100)}
+
+KNX_BUS_INTERFACE { id: KNX-BI-1, layer: 1-EG, rotation: 0 }
+KNX_TOUCH_SENSOR { id: KNX-TS-1, layer: 1-EG, position: (KNX-BI-1-RIGHT)}
+SOCKET_POWER { id: SOCKP-1, layer: 1-EG, position: (KNX-TS-1-RIGHT)}
+KNX_BUS_INTERFACE { id: KNX-BI-2, layer: 1-EG, rotation: 90 }
+KNX_TOUCH_SENSOR { id: KNX-TS-2, layer: 1-EG, anchor: >TOP, position: (KNX-BI-2-RIGHT)}
+SOCKET_POWER { id: SOCKP-2, layer: 1-EG, rotation: 90, position: (KNX-TS-2-BOTTOM)}
+KNX_BUS_INTERFACE { id: KNX-BI-3, layer: 1-EG, rotation: 180 }
+KNX_TOUCH_SENSOR { id: KNX-TS-3, layer: 1-EG, anchor: >RIGHT, position: (KNX-BI-3-RIGHT)}
+SOCKET_POWER { id: SOCKP-3, layer: 1-EG, rotation: 180, position: (KNX-TS-3-LEFT)}
+KNX_BUS_INTERFACE { id: KNX-BI-4, layer: 1-EG, rotation: -90 }
+KNX_TOUCH_SENSOR { id: KNX-TS-4, layer: 1-EG, anchor: >BOTTOM, position: (KNX-BI-4-RIGHT)}
+SOCKET_POWER { id: SOCKP-4, layer: 1-EG, rotation: -90, position: (KNX-TS-4-TOP)}

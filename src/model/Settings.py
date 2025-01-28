@@ -6,7 +6,6 @@ class Settings(DSLBaseClass):
     page_size: str = "A4"
     scale_divisor: int = 100
     compass_rotation: int = 0
-    version: str = "v00.00"
     
     def validate(self):
         if self.page_size not in {"A4", "A3"}:

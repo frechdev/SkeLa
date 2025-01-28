@@ -1,7 +1,7 @@
 from model.electrical_nodes.ElectricalNode import ElectricalNode
 
 
-class KNXTemperatureSensor(ElectricalNode):
+class KNXHumiditySensor(ElectricalNode):
     '''
     Symbol-Source: https://gallery.proficad.com/schaltzeichen
     '''
@@ -21,14 +21,14 @@ class KNXTemperatureSensor(ElectricalNode):
         definition_string_list.append(f'<symbol id="{type(self).__name__}-Node">')
         definition_string_list.append(f'<rect x="0" y="0.1" width="20" height="20" fill="white" stroke="black" stroke-width="{stroke_width}px" />')
         definition_string_list.append(f'<line x1="0" y1="20" x2="20" y2="0" stroke="black" stroke-width="{stroke_width}px" />')
-        definition_string_list.append(f'<text x="15" y="18" font-size="3mm" font-family="monospace" font-weight="bold" text-anchor="middle">T</text>')
+        definition_string_list.append(f'<text x="14" y="18" font-size="3mm" font-family="monospace" font-weight="bold" text-anchor="middle">rF</text>')
         definition_string_list.append(f'</symbol>')
 
         definition_string_list.append(f'<symbol id="{type(self).__name__}-Node-Controller">')
         definition_string_list.append(f'<rect x="0" y="0.1" width="20" height="20" fill="white" stroke="black" stroke-width="{stroke_width}px" />')
         definition_string_list.append(f'<line x1="0" y1="20" x2="20" y2="0" stroke="black" stroke-width="{stroke_width}px" />')
         definition_string_list.append(f'<path d="M2 7 L7 7 L7 3 L12 3" fill="none" stroke="black" stroke-width="{stroke_width}px" />')
-        definition_string_list.append(f'<text x="15" y="18" font-size="3mm" font-family="monospace" font-weight="bold" text-anchor="middle">T</text>')
+        definition_string_list.append(f'<text x="14" y="18" font-size="3mm" font-family="monospace" font-weight="bold" text-anchor="middle">rF</text>')
         definition_string_list.append(f'</symbol>')
 
         return '\n'.join(definition_string_list)
