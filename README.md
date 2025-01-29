@@ -1,4 +1,5 @@
 # SkeLa
+SkeLa is a domain-specific language (DSL) for creating a plan or sketch for a building.
 
 ## Verwendung
 ### Verwendung als Python-Skript
@@ -70,7 +71,7 @@ pip freeze > requirements.txt
 
 4. Skript ausführen
     ```
-    pyinstaller build.spec
+    python -m PyInstaller build.spec
     ```
 
 
