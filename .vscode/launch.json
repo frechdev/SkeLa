@@ -24,5 +24,26 @@
                 "--svg"
             ]
         },
+        {
+            "name": "#0001 w/o svg",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/SketchLang.py",
+            "console": "integratedTerminal",
+            "args": [
+                "test/test_#0001.skela"
+            ]
+        },
+        {
+            "name": "#0001 w/ svg",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/SketchLang.py",
+            "console": "integratedTerminal",
+            "args": [
+                "test/test_#0001.skela",
+                "--svg"
+            ]
+        },
     ]
 }

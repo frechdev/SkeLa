@@ -102,7 +102,7 @@ class ConstructionPlanWriter:
                 if is_savig_svg:
                     self.save_svg(layer, plan_type, svg_buffer)            
                     
-                    page_counter += 1
+                page_counter += 1
 
         pdf_canvas.save()
         
