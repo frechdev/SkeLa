@@ -1,5 +1,6 @@
 from typing import List, Type
 from exceptions.NotImplementedException import NotImplementedException
+from model.AreaDimension import AreaDimension
 from model.Component import Component
 from model.Dimension import Dimension
 from model.Furniture import Furniture
@@ -31,6 +32,7 @@ z_hierarchy = [
     Label,
     Furniture,
     ElectricalNode,
+    AreaDimension,
     Dimension,
     ZDimension,
     DebugLabel,

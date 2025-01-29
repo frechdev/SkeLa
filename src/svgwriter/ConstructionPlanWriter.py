@@ -10,7 +10,10 @@ from exceptions.InputError import InputError
 import helper.VersionHelper as VersionHelper
 import helper.SVGHelper as SVGHelper
 import helper.PlanCalculations as PlanCalculations
+from model.AreaDimension import AreaDimension
+from model.Label import Label
 from model.PlanComponent import PlanComponent
+from model.Room import Room
 from model.Settings import Settings
 from svgwriter import ZHierarchy
 from model.Shape import Shape
@@ -69,6 +72,10 @@ class ConstructionPlanWriter:
         
         component_list.extend(self.constructionPlanSet.component_list)
 
+        room_components:list[Room] = list(filter(lambda n: (isinstance(n, Room)), self.constructionPlanSet.component_list))
+        for room_component in room_components:
+            component_list.append(AreaDimension(room_component))
+        
         layers = sorted(self.constructionPlanSet.get_layers())
         pdf_buffer = BytesIO()
         pdf_canvas = canvas.Canvas(pdf_buffer, pagesize=self.pagesize)

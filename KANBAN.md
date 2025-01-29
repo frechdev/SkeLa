@@ -16,6 +16,11 @@ Wird die das Programm ausgeführt ohne "--svg"-Option, bleibt die Seitennummerie
 
 *Fehlerbehandlung:* Das "page_counter"-Inkrement wurde aus dem if-Block herausgenommen. Der Seitenzähler funktioniert nun unabhängig von der "--svg"-Option.
 
+### #0002: Flächenberechnung der einzelnen Räume
+Für jeden Raum soll automatisch die Fläche berechnet werden.
+
+*Umsetzung:* Es wurde eine neue Klasse (AreaDimension) angelegt, die auf Basis eines Raums (Room) die Fläche berechnet. Der ConstructionPlanWriter instaziier zu jedem Room nun ein solches AreaDimension-Objekt.
+
 ## Release: v00.001.01.00
 
 ## Release: v00.001.00.00

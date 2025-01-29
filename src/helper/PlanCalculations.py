@@ -46,3 +46,15 @@ def rotation_matrix(angle_degrees: float) -> np.ndarray:
         [cos_theta, -sin_theta],
         [sin_theta, cos_theta]
     ])
+
+def calc_polygon_area(points:np.ndarray):
+    n = len(points)
+    area = 0
+    
+    for i in range(n):
+        x1, y1 = points[i]
+        x2, y2 = points[(i + 1) % n]  # Der nächste Punkt, mit Wrap-around zum ersten Punkt
+        area += x1 * y2 - x2 * y1
+    
+    return abs(area) / 2
+
