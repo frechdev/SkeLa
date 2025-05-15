@@ -1,5 +1,4 @@
 from numpy import add
-from helper.PlanCalculations import cm_to_dots, invert_y, invert_y_list, ref_point_list, scale_point_list_for_plan
 import helper.SVGHelper as SVGHelper
 from model.Shape import Shape
 

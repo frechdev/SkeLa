@@ -18,84 +18,84 @@ OUTLINE {
 }
 
 # EG1
-ROOM {
-    id: WZ, layer: 1-EG, position: (Haus-1)+(25 25),
-    points: [
-        (0 0),
-        (464 0),
-        (464 380),
-        (0 380)
-    ]
-}
-ROOM { id: EZ, layer: 1-EG, position: (WZ-4)+(0 12), points: [(0 0), (460 0), (460 100), (400 100), (400 428), (0 428) ] }
-ROOM { id: Flur, layer: 1-EG, position: (EZ-3)+(12 0), points: [(0 0), (0 -360), (224 -360), (224 0) ] }
-
-OPENING { 
-    id: RC-EZ-Flur, layer: 1-EG, position: (EZ-2)+(-2 0), 
-    points: [
-        (0 0),
-        (16 0),
-        (16 100),
-        (0 100)
-    ]
-}
-
-OPENING_ARC { id: OA-EZ-Flur, layer: 1-EG, position: (RC-EZ-Flur-1)+(0 5), points: [(0 0), (-90 0), (0 90) ] }
-
-STAIRS { id: ST-EG, layer: 1-EG, position: (Flur-3), points: [(0 0), (0 360), (-120 360), (-120 240), (-100 240), (-100 120), (-120 120), (-120 0) ] }
-STEPS { id: STP-EG-OG1, layer: 1-EG, position: (ST-EG-8), points: [(0 0), (20 0), (120 120), (120 140), (120 160), (20 160), (20 140), (20 120), (20 120), (0 120) ] }
-STEPS { id: STP-EG-UG, layer: 1-EG, position: (ST-EG-3), inverted_running_dir: True, points: [(0 0), (30 0), (60 0), (90 0), (120 -120), (120 -140), (120 -160), (20 -160), (20 -140), (20 -120), (20 -120), (15 -120), (10 -120), (0 -120) ] }
-
-LABEL { layer: 1-EG, position: (WZ-1)+(30 50), content: Wohnzimmer }
-LABEL { layer: 1-EG, position: (EZ-LEFT)+(10 0), content: Esszimmer }
-
-DIM { dir: x, layer: 1-EG, offset: 40, point1: (Haus-2), point2: (Haus-1) }
-DIM { dir: x, layer: 1-EG, point1: (Haus-2), point2: (Haus-1) }
-DIM { dir: y, layer: 1-EG, offset: 40, point1: (Haus-3), point2: (Haus-2) }
-DIM { dir: y, layer: 1-EG, point1: (Haus-3), point2: (Haus-2) }
-DIM { dir: x, layer: 1-EG, offset: 40, point1: (Haus-4), point2: (Haus-3) }
-DIM { dir: x, layer: 1-EG, point1: (Haus-4), point2: (Haus-3) }
-DIM { dir: y, layer: 1-EG, offset: 40, point1: (Haus-5), point2: (Haus-4) }
-DIM { dir: y, layer: 1-EG, point1: (Haus-5), point2: (Haus-4) }
-DIM { dir: x, layer: 1-EG, offset: 40, reference: (Haus-4), point1: (Haus-6), point2: (Haus-4) }
-DIM { dir: y, layer: 1-EG, offset: 40, point1: (Haus-1), point2: (Haus-6) }
-
-ZDIM { layer: 1-EG, position: (EZ-CENTER), lower_height: 0, upper_height: 240 }
-
-FURNITURE { id: Flur, layer: 1-EG, label: Sofa, position: (WZ-4)+(10 -10), points: [(0 0), (0 -120), (80 -120), (80 -80), (120 -80), (120 0) ] }
-
-# SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 30)}
-# SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 60), multiplicity: 2}
-# SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 90), multiplicity: 3}
-# SOCKET_DATA { id: SOCKD-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 120)}
-# SOCKET_KOAX { id: SOCKK-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 150)}# 
-
-# KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-1, layer: 1-EG, rotation: 180, position: (WZ-2)+(0 30)}
-# KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-2, layer: 1-EG, anchor: >RIGHT, rotation: 0, position: (WZ-2)+(0 60)}
-# KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-3, layer: 1-EG, anchor: >TOP, rotation: 90, position: (WZ-2)+(0 90)}
-# KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-4, layer: 1-EG, rotation: 180, position: (WZ-2)+(0 0)}
-# KNX_TEMPERATURE_SENSOR { id: KNX-TEMPS-WZ-N, layer: 1-EG, anchor: >RIGHT, position: (KNX-BI-WZ-N-4-RIGHT)}
-# KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-5, layer: 1-EG, position: (WZ-2)+(0 150)}
-# KNX_TEMPERATURE_SENSOR { id: KNX-TEMPS-WZ-N, layer: 1-EG, position: (KNX-BI-WZ-N-5-RIGHT)}# 
-
-# KNX_BUS_INTERFACE { id: KNX-BI-EZ-N-1, layer: 1-EG, position: (EZ-1)+(0 30)}
-# KNX_TOUCH_SENSOR { id: KNX-TS-EZ-N, layer: 1-EG, position: (KNX-BI-EZ-N-1-RIGHT)}
-# KNX_BUS_INTERFACE { id: KNX-BI-EZ-N-2, layer: 1-EG, position: (EZ-1)+(0 60)}
-# KNX_TEMPERATURE_SENSOR { id: KNX-TempS-EZ-N, layer: 1-EG, position: (KNX-BI-EZ-N-2-RIGHT)}
-# KNX_HUMIDITY_SENSOR { id: KNX-HumS-EZ-N, layer: 1-EG, position: (KNX-TempS-EZ-N-RIGHT)}
-# KNX_BUS_INTERFACE { id: KNX-BI-EZ-N-3, layer: 1-EG, position: (EZ-1)+(0 90)}
-# KNX_TEMPERATURE_SENSOR { id: KNX-TS-EZ-N-3, layer: 1-EG, has_controller: True, position: (KNX-BI-EZ-N-3-RIGHT)}
-# LIGHT_CONNECTION { id: L-EZ-1, layer: 1-EG, position: (EZ-1)+(100 100)}
-
-KNX_BUS_INTERFACE { id: KNX-BI-1, layer: 1-EG, rotation: 0 }
-KNX_TOUCH_SENSOR { id: KNX-TS-1, layer: 1-EG, position: (KNX-BI-1-RIGHT)}
-SOCKET_POWER { id: SOCKP-1, layer: 1-EG, position: (KNX-TS-1-RIGHT)}
-KNX_BUS_INTERFACE { id: KNX-BI-2, layer: 1-EG, rotation: 90 }
-KNX_TOUCH_SENSOR { id: KNX-TS-2, layer: 1-EG, anchor: >TOP, position: (KNX-BI-2-RIGHT)}
-SOCKET_POWER { id: SOCKP-2, layer: 1-EG, rotation: 90, position: (KNX-TS-2-BOTTOM)}
-KNX_BUS_INTERFACE { id: KNX-BI-3, layer: 1-EG, rotation: 180 }
-KNX_TOUCH_SENSOR { id: KNX-TS-3, layer: 1-EG, anchor: >RIGHT, position: (KNX-BI-3-RIGHT)}
-SOCKET_POWER { id: SOCKP-3, layer: 1-EG, rotation: 180, position: (KNX-TS-3-LEFT)}
-KNX_BUS_INTERFACE { id: KNX-BI-4, layer: 1-EG, rotation: -90 }
-KNX_TOUCH_SENSOR { id: KNX-TS-4, layer: 1-EG, anchor: >BOTTOM, position: (KNX-BI-4-RIGHT)}
-SOCKET_POWER { id: SOCKP-4, layer: 1-EG, rotation: -90, position: (KNX-TS-4-TOP)}
+# ROOM {
+#     id: WZ, layer: 1-EG, position: (Haus-1)+(25 25),
+#     points: [
+#         (0 0),
+#         (464 0),
+#         (464 380),
+#         (0 380)
+#     ]
+# }
+# ROOM { id: EZ, layer: 1-EG, position: (WZ-4)+(0 12), points: [(0 0), (460 0), (460 100), (400 100), (400 428), (0 428) ] }
+# ROOM { id: Flur, layer: 1-EG, position: (EZ-3)+(12 0), points: [(0 0), (0 -360), (224 -360), (224 0) ] }
+# 
+# OPENING { 
+#     id: RC-EZ-Flur, layer: 1-EG, position: (EZ-2)+(-2 0), 
+#     points: [
+#         (0 0),
+#         (16 0),
+#         (16 100),
+#         (0 100)
+#     ]
+# }
+# 
+# OPENING_ARC { id: OA-EZ-Flur, layer: 1-EG, position: (RC-EZ-Flur-1)+(0 5), points: [(0 0), (-90 0), (0 90) ] }
+# 
+# STAIRS { id: ST-EG, layer: 1-EG, position: (Flur-3), points: [(0 0), (0 360), (-120 360), (-120 240), (-100 240), (-100 120), (-120 120), (-120 0) ] }
+# STEPS { id: STP-EG-OG1, layer: 1-EG, position: (ST-EG-8), points: [(0 0), (20 0), (120 120), (120 140), (120 160), (20 160), (20 140), (20 120), (20 120), (0 120) ] }
+# STEPS { id: STP-EG-UG, layer: 1-EG, position: (ST-EG-3), inverted_running_dir: True, points: [(0 0), (30 0), (60 0), (90 0), (120 -120), (120 -140), (120 -160), (20 -160), (20 -140), (20 -120), (20 -120), (15 -120), (10 -120), (0 -120) ] }
+# 
+# LABEL { layer: 1-EG, position: (WZ-1)+(30 50), content: Wohnzimmer }
+# LABEL { layer: 1-EG, position: (EZ-LEFT)+(10 0), content: Esszimmer }
+# 
+# DIM { dir: x, layer: 1-EG, offset: 40, point1: (Haus-2), point2: (Haus-1) }
+# DIM { dir: x, layer: 1-EG, point1: (Haus-2), point2: (Haus-1) }
+# DIM { dir: y, layer: 1-EG, offset: 40, point1: (Haus-3), point2: (Haus-2) }
+# DIM { dir: y, layer: 1-EG, point1: (Haus-3), point2: (Haus-2) }
+# DIM { dir: x, layer: 1-EG, offset: 40, point1: (Haus-4), point2: (Haus-3) }
+# DIM { dir: x, layer: 1-EG, point1: (Haus-4), point2: (Haus-3) }
+# DIM { dir: y, layer: 1-EG, offset: 40, point1: (Haus-5), point2: (Haus-4) }
+# DIM { dir: y, layer: 1-EG, point1: (Haus-5), point2: (Haus-4) }
+# DIM { dir: x, layer: 1-EG, offset: 40, reference: (Haus-4), point1: (Haus-6), point2: (Haus-4) }
+# DIM { dir: y, layer: 1-EG, offset: 40, point1: (Haus-1), point2: (Haus-6) }
+# 
+# ZDIM { layer: 1-EG, position: (EZ-CENTER), lower_height: 0, upper_height: 240 }
+# 
+# FURNITURE { id: Flur, layer: 1-EG, label: Sofa, position: (WZ-4)+(10 -10), points: [(0 0), (0 -120), (80 -120), (80 -80), (120 -80), (120 0) ] }
+# 
+# # SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 30)}
+# # SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 60), multiplicity: 2}
+# # SOCKET_POWER { id: SOCKP-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 90), multiplicity: 3}
+# # SOCKET_DATA { id: SOCKD-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 120)}
+# # SOCKET_KOAX { id: SOCKK-WZ-N, layer: 1-EG, anchor: >LEFT, position: (WZ-1)+(0 150)}# 
+# 
+# # KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-1, layer: 1-EG, rotation: 180, position: (WZ-2)+(0 30)}
+# # KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-2, layer: 1-EG, anchor: >RIGHT, rotation: 0, position: (WZ-2)+(0 60)}
+# # KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-3, layer: 1-EG, anchor: >TOP, rotation: 90, position: (WZ-2)+(0 90)}
+# # KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-4, layer: 1-EG, rotation: 180, position: (WZ-2)+(0 0)}
+# # KNX_TEMPERATURE_SENSOR { id: KNX-TEMPS-WZ-N, layer: 1-EG, anchor: >RIGHT, position: (KNX-BI-WZ-N-4-RIGHT)}
+# # KNX_BUS_INTERFACE { id: KNX-BI-WZ-N-5, layer: 1-EG, position: (WZ-2)+(0 150)}
+# # KNX_TEMPERATURE_SENSOR { id: KNX-TEMPS-WZ-N, layer: 1-EG, position: (KNX-BI-WZ-N-5-RIGHT)}# 
+# 
+# # KNX_BUS_INTERFACE { id: KNX-BI-EZ-N-1, layer: 1-EG, position: (EZ-1)+(0 30)}
+# # KNX_TOUCH_SENSOR { id: KNX-TS-EZ-N, layer: 1-EG, position: (KNX-BI-EZ-N-1-RIGHT)}
+# # KNX_BUS_INTERFACE { id: KNX-BI-EZ-N-2, layer: 1-EG, position: (EZ-1)+(0 60)}
+# # KNX_TEMPERATURE_SENSOR { id: KNX-TempS-EZ-N, layer: 1-EG, position: (KNX-BI-EZ-N-2-RIGHT)}
+# # KNX_HUMIDITY_SENSOR { id: KNX-HumS-EZ-N, layer: 1-EG, position: (KNX-TempS-EZ-N-RIGHT)}
+# # KNX_BUS_INTERFACE { id: KNX-BI-EZ-N-3, layer: 1-EG, position: (EZ-1)+(0 90)}
+# # KNX_TEMPERATURE_SENSOR { id: KNX-TS-EZ-N-3, layer: 1-EG, has_controller: True, position: (KNX-BI-EZ-N-3-RIGHT)}
+# # LIGHT_CONNECTION { id: L-EZ-1, layer: 1-EG, position: (EZ-1)+(100 100)}
+# 
+# KNX_BUS_INTERFACE { id: KNX-BI-1, layer: 1-EG, rotation: 0 }
+# KNX_TOUCH_SENSOR { id: KNX-TS-1, layer: 1-EG, position: (KNX-BI-1-RIGHT)}
+# SOCKET_POWER { id: SOCKP-1, layer: 1-EG, position: (KNX-TS-1-RIGHT)}
+# KNX_BUS_INTERFACE { id: KNX-BI-2, layer: 1-EG, rotation: 90 }
+# KNX_TOUCH_SENSOR { id: KNX-TS-2, layer: 1-EG, anchor: >TOP, position: (KNX-BI-2-RIGHT)}
+# SOCKET_POWER { id: SOCKP-2, layer: 1-EG, rotation: 90, position: (KNX-TS-2-BOTTOM)}
+# KNX_BUS_INTERFACE { id: KNX-BI-3, layer: 1-EG, rotation: 180 }
+# KNX_TOUCH_SENSOR { id: KNX-TS-3, layer: 1-EG, anchor: >RIGHT, position: (KNX-BI-3-RIGHT)}
+# SOCKET_POWER { id: SOCKP-3, layer: 1-EG, rotation: 180, position: (KNX-TS-3-LEFT)}
+# KNX_BUS_INTERFACE { id: KNX-BI-4, layer: 1-EG, rotation: -90 }
+# KNX_TOUCH_SENSOR { id: KNX-TS-4, layer: 1-EG, anchor: >BOTTOM, position: (KNX-BI-4-RIGHT)}
+# SOCKET_POWER { id: SOCKP-4, layer: 1-EG, rotation: -90, position: (KNX-TS-4-TOP)}
