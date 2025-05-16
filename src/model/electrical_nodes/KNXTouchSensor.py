@@ -18,10 +18,10 @@ class KNXTouchSensor(ElectricalNode):
             definition_string_list.append(super_svg_definition_string)
 
         definition_string_list.append(f'<symbol id="{type(self).__name__}-Node">')
-        definition_string_list.append(f'<rect x="0" y="0.1" width="20" height="20" fill="white" stroke="black" stroke-width="{stroke_width}px" />')
-        definition_string_list.append(f'<line x1="0" y1="20" x2="20" y2="0" stroke="black" stroke-width="{stroke_width}px" />')
-        definition_string_list.append(f'<circle cx="{14}" cy="{14}" r="{3.5}" fill="none" stroke="black" stroke-width="{stroke_width}px" />')
-        definition_string_list.append(f'<circle cx="{14}" cy="{14}" r="{1.5}"  fill="none" stroke="black" stroke-width="{stroke_width}px" />')
+        definition_string_list.append(f'<rect x="0" y="0.1" width="20" height="20" fill="white" stroke="black" stroke-width="{stroke_width}" />')
+        definition_string_list.append(f'<line x1="0" y1="20" x2="20" y2="0" stroke="black" stroke-width="{stroke_width}" />')
+        definition_string_list.append(f'<circle cx="{14}" cy="{14}" r="{3.5}" fill="none" stroke="black" stroke-width="{stroke_width}" />')
+        definition_string_list.append(f'<circle cx="{14}" cy="{14}" r="{1.5}"  fill="none" stroke="black" stroke-width="{stroke_width}" />')
         definition_string_list.append(f'</symbol>')
 
         return '\n'.join(definition_string_list)

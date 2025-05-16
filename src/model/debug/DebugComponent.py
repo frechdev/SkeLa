@@ -11,8 +11,8 @@ class DebugComponent(PlanComponent, ABC):
 
     def get_svg_style_string(self):
         svg_style_string_list = []
-        svg_style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Text', 'fill: #ac9d00', 'font-size: 10pt', 'font-family: monospace', 'text-anchor: middle'))
-        svg_style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Line', 'fill: none', 'stroke: #ac9d00', 'stroke-width: 1px'))
+        svg_style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Text', 'fill: #ac9d00', 'font-family: monospace', 'text-anchor: middle'))
+        svg_style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Line', 'fill: none', 'stroke: #ac9d00', f'stroke-width: {SVGHelper.StrokeWidth.THIN.value}'))
         
         return '\n'.join(svg_style_string_list)
 

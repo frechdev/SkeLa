@@ -24,7 +24,7 @@ from svgwriter.PlanType import PlanType, get_clear_name
 
 
 class ConstructionPlanWriter:
-    plan_margin = 50
+    plan_margin = 1
     
     def __init__(self, file_path_base, constructionPlanSet:ConstructionPlanSet, debug_mode):
         self.file_path_base = file_path_base
@@ -35,16 +35,13 @@ class ConstructionPlanWriter:
         match constructionPlanSet.settings.page_size:
             case 'A4':
                 self.pagesize = A4
-                self.pdf_width, self.pdf_height = 21, 29.7
+                self.page_width, self.page_height = 21, 29.7
             case 'A3':
                 self.pagesize = A3
-                self.pdf_width, self.pdf_height = 29.7, 42
+                self.page_width, self.page_height = 29.7, 42
             case _:
                 raise ValueError(f'Page size {constructionPlanSet.settings['page_size']} is not supported')
-        
-        self.svg_width = PlanCalculations.cm_to_dots(self.pdf_width)
-        self.svg_height = PlanCalculations.cm_to_dots(self.pdf_height)
-        
+                
     def write(self, is_savig_svg:bool):
         component_list:List[Component] = []
         
@@ -120,27 +117,25 @@ class ConstructionPlanWriter:
 
     def make_svg_content(self, component_list:List[Component], settings:Settings):
         svg_content_list = []
-        svg_content_list.append(self.make_header(self.svg_width, self.svg_height, component_list))
+        svg_content_list.append(self.make_header(self.page_width, self.page_height, component_list))
         
         meta_information_list:List[MetaInformation] = list(filter(lambda n: isinstance(n, MetaInformation), component_list))
-        plan_border_content, meta_inforamtion_height = self.make_plan_border(self.svg_width, self.svg_height, self.plan_margin, meta_information_list)
+        plan_border_content, meta_inforamtion_height = self.make_plan_border(self.page_width, self.page_height, self.plan_margin, settings.compass_rotation, meta_information_list)
         svg_content_list.append(plan_border_content)
 
-        svg_content_list.append(self.make_compass(self.svg_width, self.svg_height, self.plan_margin, settings.compass_rotation))
-
-        body_heigth = self.svg_height - meta_inforamtion_height
-        svg_content_list.append(self.make_body(self.svg_width, body_heigth, component_list))
+        body_heigth = self.page_height - meta_inforamtion_height
+        svg_content_list.append(self.make_body(self.page_width, body_heigth, component_list))
 
         svg_content_list.append(self.make_footer())
         return '\n'.join(svg_content_list)
 
-    def make_header(self, svg_width, svg_height, component_list:List[Component]):
+    def make_header(self, page_width, page_height, component_list:List[Component]):
         header_content_list = []
-        header_content_list.append(f'<svg width="{svg_width}" height="{svg_height}" xmlns="http://www.x3.org/2000/svg" viewBox="0 0 {svg_width} {svg_height}">')
+        header_content_list.append(f'<svg width="{page_width}cm" height="{page_height}cm" xmlns="http://www.x3.org/2000/svg" viewBox="0 0 {page_width} {page_height}">')
         
         style_content_list = []
-        style_content_list.append(SVGHelper.gen_style_string('plan-boarder', 'fill: none', 'stroke: black', 'stroke-width: 2px'))
-        style_content_list.append(SVGHelper.gen_style_string('watermark-text', 'font-size: 8pt', 'font-family: monospace'))
+        style_content_list.append(SVGHelper.gen_style_string('plan-boarder', 'fill: none', 'stroke: black', f'stroke-width: {SVGHelper.StrokeWidth.THICK.value}'))
+        style_content_list.append(SVGHelper.gen_style_string('watermark-text', 'font-family: monospace'))
 
         definition_content_list = []
 
@@ -168,9 +163,9 @@ class ConstructionPlanWriter:
 
         return '\n'.join(header_content_list)
 
-    def make_plan_border(self, svg_width, svg_height, margin, meta_information_list:List[MetaInformation]):
-        plan_border_width = svg_width-margin*2
-        plan_border_heigth = svg_height-margin*2
+    def make_plan_border(self, page_width, page_height, margin, compass_rotation, meta_information_list:List[MetaInformation]):
+        plan_border_width = page_width-margin*2
+        plan_border_heigth = page_height-margin*2
     	
         plan_border_content_list = []
 
@@ -183,13 +178,13 @@ class ConstructionPlanWriter:
         watermark_text_1 = f'Created with SkeLa v{version_str}'
         watermark_text_2 = '(https://github.com/frechdev/SkeLa)'
         
-        plan_border_content_list.append(f'<text class="watermark-text" x="{margin}" y="{margin + plan_border_heigth + 10}">{watermark_text_1}<tspan x="{margin}" dy="10">{watermark_text_2}</tspan></text>')
+        plan_border_content_list.append(f'<text class="watermark-text" font-size="0.3" x="{margin}" y="{margin + plan_border_heigth + 0.3}">{watermark_text_1}<tspan x="{margin}" dy="0.3">{watermark_text_2}</tspan></text>')
 
         info_box_width = plan_border_width/3
-        info_box_height = 50
-        info_box_margin = 5
-        info_box_key_y_offset = 10
-        info_box_text_y_offset = -5
+        info_box_height = 1.5
+        info_box_margin = 0.1
+        info_box_key_y_offset = 0.4
+        info_box_text_y_offset = -0.2
 
         counter:int = -1
         for meta_information in meta_information_list:
@@ -199,27 +194,22 @@ class ConstructionPlanWriter:
             info_box_y = plan_border_heigth + margin - info_box_height * (int(counter/2) + 1)
 
             plan_border_content_list.append(f'<rect class="plan-boarder" width="{info_box_width}" height="{info_box_height}" x="{info_box_x}" y="{info_box_y}" />')
-            plan_border_content_list.append(f'<text class="{type(meta_information).__name__}-Title" x="{info_box_x+info_box_margin}" y="{info_box_y+info_box_margin+info_box_key_y_offset}">{meta_information.title}</text>')
-            plan_border_content_list.append(f'<text class="{type(meta_information).__name__}-Content" x="{info_box_x + info_box_width/2}" y="{info_box_y + info_box_height - info_box_margin + info_box_text_y_offset}">{meta_information.content}</text>')
+            plan_border_content_list.append(f'<text class="{type(meta_information).__name__}-Title" font-size="0.5" x="{info_box_x+info_box_margin}" y="{info_box_y+info_box_margin+info_box_key_y_offset}">{meta_information.title}</text>')
+            plan_border_content_list.append(f'<text class="{type(meta_information).__name__}-Content" font-size="0.5" x="{info_box_x + info_box_width/2}" y="{info_box_y + info_box_height - info_box_margin + info_box_text_y_offset}">{meta_information.content}</text>')
 
-        return '\n'.join(plan_border_content_list), info_box_height * (int(counter/2) + 1)
-
-    def make_compass(self, svg_width, svg_height, margin, compass_rotation):
-        compass_content_list = []
+        plan_border_content_list.append(f'<g transform="translate({margin+info_box_width/2} {page_height-margin-3})">')
+        plan_border_content_list.append(f'<g transform="rotate({compass_rotation} 0 0)">')
+        plan_border_content_list.append(f'<circle r="2" stroke="black" stroke-width="0.1" fill="none" />')
+        plan_border_content_list.append(f'<circle r="1" stroke="black" stroke-width="0.1" fill="none" />')
+        plan_border_content_list.append(f'<circle r="0.1" stroke="black" stroke-width="0.1" fill="black" />')
+        plan_border_content_list.append(f'<line y1="-1" y2="1" stroke="black" stroke-width="0.1" />')
+        plan_border_content_list.append(f'<text x="0" y="-1.2" font-family="monospace" font-size="1" text-anchor="middle" fill="black">N</text>')
+        plan_border_content_list.append(f'<text x="0" y="1.8" font-family="monospace" font-size="1" text-anchor="middle" fill="black">S</text>')
+        plan_border_content_list.append(f'<text x="-1.5" y="0.3" font-family="monospace" font-size="1" text-anchor="middle" fill="black">W</text>')
+        plan_border_content_list.append(f'<text x="1.5" y="0.3" font-family="monospace" font-size="1" text-anchor="middle" fill="black">E</text>')
+        plan_border_content_list.append('</g></g>')
         
-        compass_content_list.append(f'<g transform="translate({margin+80} {svg_height-margin-80})">')
-        compass_content_list.append(f'<g transform="rotate({compass_rotation} 0 0)">')
-        compass_content_list.append(f'<circle r="50" stroke="black" stroke-width="2" fill="none" />')
-        compass_content_list.append(f'<circle r="25" stroke="black" stroke-width="2" fill="none" />')
-        compass_content_list.append(f'<circle r="2" stroke="black" stroke-width="2" fill="black" />')
-        compass_content_list.append(f'<line y1="-25" y2="25" stroke="black" stroke-width="2" />')
-        compass_content_list.append(f'<text x="0" y="-30" font-family="monospace" font-size="20" text-anchor="middle" fill="black">N</text>')
-        compass_content_list.append(f'<text x="0" y="45" font-family="monospace" font-size="20" text-anchor="middle" fill="black">S</text>')
-        compass_content_list.append(f'<text x="-40" y="7" font-family="monospace" font-size="20" text-anchor="middle" fill="black">W</text>')
-        compass_content_list.append(f'<text x="40" y="7" font-family="monospace" font-size="20" text-anchor="middle" fill="black">E</text>')
-        compass_content_list.append('</g></g>')
-
-        return '\n'.join(compass_content_list)
+        return '\n'.join(plan_border_content_list), info_box_height * (int(counter/2) + 1)
 
     def make_body(self, body_width, body_heigth, component_list:List[Component]):
         plan_component_list:List[PlanComponent] = list(filter(

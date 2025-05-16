@@ -21,7 +21,7 @@ class Axes(DebugComponent):
         
         svg_string_list = []
         svg_string_list.append(SVGHelper.gen_path_string(pnts, False, f'{type(self).__name__}-Line'))
-        svg_string_list.append(SVGHelper.gen_text_string(pnts[0], 'x', f'{type(self).__name__}-Text', 'text-anchor="end"'))
-        svg_string_list.append(SVGHelper.gen_text_string(pnts[2] + np.array([5, 5]), 'y', f'{type(self).__name__}-Text'))
+        svg_string_list.append(SVGHelper.gen_text_string(pnts[0], SVGHelper.FontSize.NORMAL, 'x', f'{type(self).__name__}-Text', 'text-anchor="end"'))
+        svg_string_list.append(SVGHelper.gen_text_string(pnts[2] + np.array([5, 5]), SVGHelper.FontSize.NORMAL, 'y', f'{type(self).__name__}-Text'))
         
         return '\n'.join(svg_string_list)

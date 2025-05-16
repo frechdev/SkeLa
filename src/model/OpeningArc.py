@@ -34,7 +34,7 @@ class OpeningArc(Shape):
         return svg_string
     
     def get_svg_style_string(self):
-        return SVGHelper.gen_style_string(f'{type(self).__name__}', 'fill: #b3b3b3', 'stroke: black', 'stroke-width: 0.5px')
+        return SVGHelper.gen_style_string(f'{type(self).__name__}', 'fill: #b3b3b3', 'stroke: black', f'stroke-width: {SVGHelper.StrokeWidth.NORMAL.value}')
     
     def validate(self):
         return super().validate()

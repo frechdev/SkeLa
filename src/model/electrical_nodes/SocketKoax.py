@@ -18,9 +18,9 @@ class SocketKoax(ElectricalNode):
             definition_string_list.append(super_svg_definition_string)
 
         definition_string_list.append(f'<symbol id="{type(self).__name__}-Node">')
-        definition_string_list.append(f'<line x1="0" y1="10" x2="10" y2="10" stroke="black" stroke-width="{stroke_width}px" />')
-        definition_string_list.append(f'<path d="M20 0 10 0 10 20 20 20" fill="none" stroke="black" stroke-width="{stroke_width}px" />')
-        definition_string_list.append(f'<path d="M20 2 12 2 12 18 20 18" fill="none" stroke="black" stroke-width="{stroke_width}px" />')
+        definition_string_list.append(f'<line x1="0" y1="10" x2="10" y2="10" stroke="black" stroke-width="{stroke_width}" />')
+        definition_string_list.append(f'<path d="M20 0 10 0 10 20 20 20" fill="none" stroke="black" stroke-width="{stroke_width}" />')
+        definition_string_list.append(f'<path d="M20 2 12 2 12 18 20 18" fill="none" stroke="black" stroke-width="{stroke_width}" />')
         definition_string_list.append(f'</symbol>')
 
         return '\n'.join(definition_string_list)

@@ -20,6 +20,6 @@ class DebugLabel(DebugComponent):
     def get_svg_string(self, scale_divisor):
         transformed_position = PlanComponent.transform_point_for_plan(self.position, scale_divisor)        
 
-        svg_string = SVGHelper.gen_text_string(transformed_position, self.content, f'{type(self).__name__}-Text')
+        svg_string = SVGHelper.gen_text_string(transformed_position, SVGHelper.FontSize.NORMAL, self.content, f'{type(self).__name__}-Text')
 
         return svg_string

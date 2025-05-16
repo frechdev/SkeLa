@@ -40,7 +40,7 @@ class Steps(Shape):
     
     def get_svg_style_string(self):
         style_string_list = []
-        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}', 'fill: none', 'stroke: black', 'stroke-width: 0.5px'))
+        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}', 'fill: none', 'stroke: black', f'stroke-width: {SVGHelper.StrokeWidth.THIN.value}'))
         style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Circle', 'fill: black'))
         style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Arrowhead', 'fill: black'))
         return '\n'.join(style_string_list)

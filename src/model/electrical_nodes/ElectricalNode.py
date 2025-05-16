@@ -1,4 +1,3 @@
-from helper.PlanCalculations import cm_to_dots
 from model.Node import Node
 from model.PlanComponent import PlanComponent
 from model.ReferenceableComponent import Anchor

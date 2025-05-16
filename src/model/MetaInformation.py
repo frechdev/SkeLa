@@ -9,8 +9,8 @@ class MetaInformation(Component):
 
     def get_svg_style_string(self):
         style_string_list = []
-        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Title', 'font-size: 10pt', 'font-family: monospace', 'text-anchor: start'))
-        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Content', 'font-size: 10pt', 'font-family: monospace', 'font-weight: bold', 'text-anchor: middle'))
+        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Title', 'font-family: monospace', 'text-anchor: start'))
+        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Content', 'font-family: monospace', 'font-weight: bold', 'text-anchor: middle'))
         return '\n'.join(style_string_list) 
     
     def validate(self):
