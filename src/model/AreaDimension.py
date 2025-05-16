@@ -19,7 +19,7 @@ class AreaDimension(PlanComponent):
     
     def get_svg_style_string(self):
         style_string_list = []
-        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Text', 'fill: #00a1a1', 'font-size: 10pt', 'font-family: monospace', 'text-anchor: middle'))
+        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Text', 'fill: #00a1a1', 'font-family: monospace', 'text-anchor: middle'))
         return '\n'.join(style_string_list) 
 
     def get_svg_string(self, scale_divisor):
@@ -27,5 +27,5 @@ class AreaDimension(PlanComponent):
 
         area_in_qm = round(self.area / 10000, 2)
         
-        return SVGHelper.gen_text_string(transformed_position, f'{area_in_qm}qm', f'{type(self).__name__}-Text')
+        return SVGHelper.gen_text_string(transformed_position, SVGHelper.FontSize.NORMAL, f'{area_in_qm}qm', f'{type(self).__name__}-Text')
         

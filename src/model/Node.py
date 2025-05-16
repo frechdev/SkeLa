@@ -38,7 +38,7 @@ class Node(ReferenceableComponent, ABC):
                 
         transformed_position = PlanComponent.transform_point_for_plan(self.position, scale_divisor)
         
-        svg_string = f'<use href="#{type(self).__name__}-Node" transform="translate({transformed_position[0]}cm {transformed_position[1]}cm) rotate({self.rotation}) scale({1/scale_divisor}) translate({-non_rotated_relative_anchor_position[0]}cm {-non_rotated_relative_anchor_position[1]}cm)"/>'
+        svg_string = f'<use href="#{type(self).__name__}-Node" transform="translate({transformed_position[0]} {transformed_position[1]}) rotate({self.rotation}) scale({1/scale_divisor}) translate({-non_rotated_relative_anchor_position[0]} {-non_rotated_relative_anchor_position[1]})"/>'
         
         return svg_string
 

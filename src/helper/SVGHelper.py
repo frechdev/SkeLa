@@ -1,5 +1,16 @@
+from enum import Enum
 from typing import List
 import numpy as np
+
+class FontSize(Enum):
+    SMALL = 0.3
+    NORMAL = 0.5
+    HUGE = 0.7
+
+class StrokeWidth(Enum):
+    THIN = 0.01
+    NORMAL = 0.03
+    THICK = 0.05
 
 def gen_style_string(class_name, *argv) -> str:
     string = ''
@@ -65,15 +76,19 @@ def gen_circle_string(center:np.ndarray,radius:int, class_name:str = None, adds:
 
     return string
 
-def gen_text_string(anchor:np.ndarray, content:str, class_name:str = None, adds:str = None) -> str:
+def gen_text_string(anchor:np.ndarray, font_size:FontSize, content:str, class_name:str = None, adds:str = None) -> str:
     
     string = f'<text '
 
+    string += f'font-size="{font_size.value}" '
+
     if class_name:
         string += f'class="{class_name}" '
+
     if adds:
         string += f'{adds} '
 
     string += f'x="{anchor[0]}" y="{anchor[1]}">{content}</text>'
     
     return string
+

@@ -120,12 +120,10 @@ class ConstructionPlanWriter:
         svg_content_list.append(self.make_header(self.page_width, self.page_height, component_list))
         
         meta_information_list:List[MetaInformation] = list(filter(lambda n: isinstance(n, MetaInformation), component_list))
-        plan_border_content, meta_inforamtion_height = self.make_plan_border(self.page_width, self.page_height, self.plan_margin, meta_information_list)
+        plan_border_content, meta_inforamtion_height = self.make_plan_border(self.page_width, self.page_height, self.plan_margin, settings.compass_rotation, meta_information_list)
         svg_content_list.append(plan_border_content)
 
-        svg_content_list.append(self.make_compass(self.page_width, self.page_height, self.plan_margin, settings.compass_rotation))
-
-        body_heigth = self.page_width - meta_inforamtion_height
+        body_heigth = self.page_height - meta_inforamtion_height
         svg_content_list.append(self.make_body(self.page_width, body_heigth, component_list))
 
         svg_content_list.append(self.make_footer())
@@ -133,11 +131,11 @@ class ConstructionPlanWriter:
 
     def make_header(self, page_width, page_height, component_list:List[Component]):
         header_content_list = []
-        header_content_list.append(f'<svg width="{page_width}cm" height="{page_height}cm" xmlns="http://www.x3.org/2000/svg" viewBox="0 0 {page_width}cm {page_height}cm">')
+        header_content_list.append(f'<svg width="{page_width}cm" height="{page_height}cm" xmlns="http://www.x3.org/2000/svg" viewBox="0 0 {page_width} {page_height}">')
         
         style_content_list = []
-        style_content_list.append(SVGHelper.gen_style_string('plan-boarder', 'fill: none', 'stroke: black', 'stroke-width: 1pt'))
-        style_content_list.append(SVGHelper.gen_style_string('watermark-text', 'font-size: 8pt', 'font-family: monospace'))
+        style_content_list.append(SVGHelper.gen_style_string('plan-boarder', 'fill: none', 'stroke: black', f'stroke-width: {SVGHelper.StrokeWidth.THICK.value}'))
+        style_content_list.append(SVGHelper.gen_style_string('watermark-text', 'font-family: monospace'))
 
         definition_content_list = []
 
@@ -165,14 +163,14 @@ class ConstructionPlanWriter:
 
         return '\n'.join(header_content_list)
 
-    def make_plan_border(self, page_width, page_height, margin, meta_information_list:List[MetaInformation]):
+    def make_plan_border(self, page_width, page_height, margin, compass_rotation, meta_information_list:List[MetaInformation]):
         plan_border_width = page_width-margin*2
         plan_border_heigth = page_height-margin*2
     	
         plan_border_content_list = []
 
      
-        plan_border_content_list.append(f'<rect class="plan-boarder" width="{plan_border_width}cm" height="{plan_border_heigth}cm" x="{margin}cm" y="{margin}cm"/>')
+        plan_border_content_list.append(f'<rect class="plan-boarder" width="{plan_border_width}" height="{plan_border_heigth}" x="{margin}" y="{margin}"/>')
         
         maj, min, patch, rev = VersionHelper.get_version()
         version_str=VersionHelper.version_to_str(maj, min, patch, rev)
@@ -180,13 +178,13 @@ class ConstructionPlanWriter:
         watermark_text_1 = f'Created with SkeLa v{version_str}'
         watermark_text_2 = '(https://github.com/frechdev/SkeLa)'
         
-        plan_border_content_list.append(f'<text class="watermark-text" x="{margin}cm" y="{margin + plan_border_heigth + 0.3}cm">{watermark_text_1}<tspan x="{margin}cm" dy="0.3cm">{watermark_text_2}</tspan></text>')
+        plan_border_content_list.append(f'<text class="watermark-text" font-size="0.3" x="{margin}" y="{margin + plan_border_heigth + 0.3}">{watermark_text_1}<tspan x="{margin}" dy="0.3">{watermark_text_2}</tspan></text>')
 
         info_box_width = plan_border_width/3
         info_box_height = 1.5
         info_box_margin = 0.1
-        info_box_key_y_offset = 0.3
-        info_box_text_y_offset = -0.3
+        info_box_key_y_offset = 0.4
+        info_box_text_y_offset = -0.2
 
         counter:int = -1
         for meta_information in meta_information_list:
@@ -195,28 +193,23 @@ class ConstructionPlanWriter:
             info_box_x = plan_border_width + margin - info_box_width * (counter%2 + 1)
             info_box_y = plan_border_heigth + margin - info_box_height * (int(counter/2) + 1)
 
-            plan_border_content_list.append(f'<rect class="plan-boarder" width="{info_box_width}cm" height="{info_box_height}cm" x="{info_box_x}cm" y="{info_box_y}cm" />')
-            plan_border_content_list.append(f'<text class="{type(meta_information).__name__}-Title" x="{info_box_x+info_box_margin}cm" y="{info_box_y+info_box_margin+info_box_key_y_offset}cm">{meta_information.title}</text>')
-            plan_border_content_list.append(f'<text class="{type(meta_information).__name__}-Content" x="{info_box_x + info_box_width/2}cm" y="{info_box_y + info_box_height - info_box_margin + info_box_text_y_offset}cm">{meta_information.content}</text>')
+            plan_border_content_list.append(f'<rect class="plan-boarder" width="{info_box_width}" height="{info_box_height}" x="{info_box_x}" y="{info_box_y}" />')
+            plan_border_content_list.append(f'<text class="{type(meta_information).__name__}-Title" font-size="0.5" x="{info_box_x+info_box_margin}" y="{info_box_y+info_box_margin+info_box_key_y_offset}">{meta_information.title}</text>')
+            plan_border_content_list.append(f'<text class="{type(meta_information).__name__}-Content" font-size="0.5" x="{info_box_x + info_box_width/2}" y="{info_box_y + info_box_height - info_box_margin + info_box_text_y_offset}">{meta_information.content}</text>')
 
-        return '\n'.join(plan_border_content_list), info_box_height * (int(counter/2) + 1)
-
-    def make_compass(self, page_width, page_height, margin, compass_rotation):
-        compass_content_list = []
+        plan_border_content_list.append(f'<g transform="translate({margin+info_box_width/2} {page_height-margin-3})">')
+        plan_border_content_list.append(f'<g transform="rotate({compass_rotation} 0 0)">')
+        plan_border_content_list.append(f'<circle r="2" stroke="black" stroke-width="0.1" fill="none" />')
+        plan_border_content_list.append(f'<circle r="1" stroke="black" stroke-width="0.1" fill="none" />')
+        plan_border_content_list.append(f'<circle r="0.1" stroke="black" stroke-width="0.1" fill="black" />')
+        plan_border_content_list.append(f'<line y1="-1" y2="1" stroke="black" stroke-width="0.1" />')
+        plan_border_content_list.append(f'<text x="0" y="-1.2" font-family="monospace" font-size="1" text-anchor="middle" fill="black">N</text>')
+        plan_border_content_list.append(f'<text x="0" y="1.8" font-family="monospace" font-size="1" text-anchor="middle" fill="black">S</text>')
+        plan_border_content_list.append(f'<text x="-1.5" y="0.3" font-family="monospace" font-size="1" text-anchor="middle" fill="black">W</text>')
+        plan_border_content_list.append(f'<text x="1.5" y="0.3" font-family="monospace" font-size="1" text-anchor="middle" fill="black">E</text>')
+        plan_border_content_list.append('</g></g>')
         
-        compass_content_list.append(f'<g transform="translate({margin+4}cm {page_height-margin-4}cm)">')
-        compass_content_list.append(f'<g transform="rotate({compass_rotation} 0 0)">')
-        compass_content_list.append(f'<circle r="2cm" stroke="black" stroke-width="1pt" fill="none" />')
-        compass_content_list.append(f'<circle r="1cm" stroke="black" stroke-width="1pt" fill="none" />')
-        compass_content_list.append(f'<circle r="0.1cm" stroke="black" stroke-width="1pt" fill="black" />')
-        compass_content_list.append(f'<line y1="-2cm" y2="2cm" stroke="black" stroke-width="1pt" />')
-        compass_content_list.append(f'<text x="0" y="-1.5cm" font-family="monospace" font-size="10pt" text-anchor="middle" fill="black">N</text>')
-        compass_content_list.append(f'<text x="0" y="1.7cm" font-family="monospace" font-size="10pt" text-anchor="middle" fill="black">S</text>')
-        compass_content_list.append(f'<text x="-1.7cm" y="0.5cm" font-family="monospace" font-size="10pt" text-anchor="middle" fill="black">W</text>')
-        compass_content_list.append(f'<text x="1.7cm" y="0.5cm" font-family="monospace" font-size="10pt" text-anchor="middle" fill="black">E</text>')
-        compass_content_list.append('</g></g>')
-
-        return '\n'.join(compass_content_list)
+        return '\n'.join(plan_border_content_list), info_box_height * (int(counter/2) + 1)
 
     def make_body(self, body_width, body_heigth, component_list:List[Component]):
         plan_component_list:List[PlanComponent] = list(filter(

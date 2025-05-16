@@ -9,7 +9,7 @@ from svgwriter.PlanType import PlanType
 
 class Dimension(PlanComponent):
     dir:str
-    offset:int = 0
+    offset:float = 0
     is_derived:bool = False
     reference:np.ndarray = None
     point1:np.ndarray
@@ -18,8 +18,8 @@ class Dimension(PlanComponent):
     
     def get_svg_style_string(self):
         style_string_list = []
-        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Text', 'fill: #a10000', 'font-size: 7pt', 'font-family: monospace', 'text-anchor: middle'))
-        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Line', 'fill: none', 'stroke: black', 'stroke-width: 0.5px'))
+        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Text', 'fill: #a10000', 'font-family: monospace', 'text-anchor: middle'))
+        style_string_list.append(SVGHelper.gen_style_string(f'{type(self).__name__}-Line', 'fill: none', 'stroke: black', f'stroke-width: {SVGHelper.StrokeWidth.THIN.value}'))
         return '\n'.join(style_string_list) 
     
     def get_svg_string(self, scale_divisor):
@@ -33,6 +33,7 @@ class Dimension(PlanComponent):
         else:
             transformed_reference = PlanCalculations.scale_point_for_plan(PlanCalculations.invert_y(self.reference), scale_divisor)
         
+        font_size = SVGHelper.FontSize.SMALL.value
         dimension_text:str
         text_offset_x:int
         text_offset_y:int
@@ -50,11 +51,11 @@ class Dimension(PlanComponent):
                 dim_line_anchor2 = np.array([transformed_point2[0], transformed_reference[1]])
                 
                 if self.point2[0]>self.point1[0]:
-                    text_offset_y = -2
+                    text_offset_y = -0.1
                     dim_line_anchor1 = dim_line_anchor1 - np.array([0, self.offset])
                     dim_line_anchor2 = dim_line_anchor2 - np.array([0, self.offset])
                 else:
-                    text_offset_y = 9
+                    text_offset_y = font_size
                     dim_line_anchor1 = dim_line_anchor1 + np.array([0, self.offset])
                     dim_line_anchor2 = dim_line_anchor2 + np.array([0, self.offset])
                 
@@ -71,11 +72,11 @@ class Dimension(PlanComponent):
                 dim_line_anchor2 = np.array([transformed_reference[0], transformed_point2[1]])
                 
                 if self.point2[1]>self.point1[1]:
-                    text_offset_x = -2
+                    text_offset_x = -0.1
                     dim_line_anchor1 = dim_line_anchor1 - np.array([self.offset, 0])
                     dim_line_anchor2 = dim_line_anchor2 - np.array([self.offset, 0])
                 else:
-                    text_offset_x = 9
+                    text_offset_x = font_size
                     dim_line_anchor1 = dim_line_anchor1 + np.array([self.offset, 0])
                     dim_line_anchor2 = dim_line_anchor2 + np.array([self.offset, 0])
                 
@@ -91,7 +92,7 @@ class Dimension(PlanComponent):
         transform_rot = text_rotation
 
         svg_string_list = []
-        svg_string_list.append(f'<text class="{type(self).__name__}-Text" transform="translate({transform_x} {transform_y}) rotate({transform_rot})">{dimension_text}</text>')
+        svg_string_list.append(f'<text class="{type(self).__name__}-Text" font-size="{font_size}" transform="translate({transform_x} {transform_y}) rotate({transform_rot})">{dimension_text}</text>')
 
         if (self.offset != 0):
             line1_x1, line1_y1 = transformed_point1
