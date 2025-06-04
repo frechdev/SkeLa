@@ -8,6 +8,9 @@ Die Laufrichtung von Treppen wird aktuell nur in der svg-Datei angezeigt, nicht 
 ### Fehlerhafte "TOP"- bzw "BOTTOM"-Anker-Abfrage an Shape-Objekten
 Es ist vorgekommen, dass eine "TOP"- oder "BOTTOM"-Anker-Abfrage nicht den korrekten Anker-Punkt zurückgegeben hat. Stattdessen wurde der jeweils gegenteilige Anker-Punkt zurückgegeben.
 
+### Dimensionierung in Furniture
+Es soll konkret möglich sein, dass man auch den Einrichtungsplan bemaßen kann. Es ist zu Prüfen ob die Umsetzung so möglich ist, dass generell auch ein Element einem oder mehreren beliebigen Plantypen zugewiesen werden kann.
+
 ## Release: v00.001.03.00
 ### #0003: Dokument-Einheiten konsolidieren
 Das Dokument soll im <svg>-Tag mit einer Breite und Höhe in cm sowie einer ViewBox, die alle im Dokument verwendeten Maße automatisch in cm umwandelt ausgestattet werden. Ggf. sind einige Maße im Dokument zu überarbeiten. Im idealfall wird dann auch der Maßstab über ein "scaling" möglich. Weitere daraus folgenden Vereinfachungen sind zu prüfung.
