@@ -7,6 +7,7 @@ from model.OpeningArc import OpeningArc
 from model.Outline import Outline
 from model.Room import Room
 from model.Settings import Settings
+from model.Slope import Slope
 from model.Stairs import Stairs
 from model.Steps import Steps
 from model.ZDimension import ZDimension
@@ -25,6 +26,7 @@ class_map = {
         "META_INFORMATION": MetaInformation,
         "OUTLINE": Outline,
         "ROOM": Room,
+        "SLOPE": Slope,
         "OPENING": Opening,
         "OPENING_ARC": OpeningArc,
         "STAIRS": Stairs,

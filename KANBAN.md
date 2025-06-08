@@ -1,7 +1,4 @@
 ## Backlog
-### Dachschrägen
-Es soll möglich sein, einen Dachschrägen im Plan einzeichnen zu können.
-
 ### Laufrichtungen von Treppen nur im svg
 Die Laufrichtung von Treppen wird aktuell nur in der svg-Datei angezeigt, nicht jedoch im pdf. Vermutlich kann der aktuelle pdf-Interpreter nicht mit "Markern" umgehen.
 
@@ -12,6 +9,9 @@ Es ist vorgekommen, dass eine "TOP"- oder "BOTTOM"-Anker-Abfrage nicht den korre
 Es soll konkret möglich sein, dass man auch den Einrichtungsplan bemaßen kann. Es ist zu Prüfen ob die Umsetzung so möglich ist, dass generell auch ein Element einem oder mehreren beliebigen Plantypen zugewiesen werden kann.
 
 ## Release: v00.001.04.00
+### #0005: Dachschrägen
+Es soll möglich sein, einen Dachschrägen (Slopes) im Plan einzeichnen zu können.
+
 ### #0004: TOP- und BOTTOM- Anker vertauscht
 Wird als Position von auf einen "TOP"- oder "BOTTOM"-Anker einer Node referenziert, erscheint das Objekt entsprechend unten bei "TOP" oder oben bei "BOTTOM". Richtig wäre die Vertauschung
 

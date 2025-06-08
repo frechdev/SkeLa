@@ -30,6 +30,12 @@ ROOM {
 ROOM { id: EZ, layer: 1-EG, position: (WZ-4)+(0 12), points: [(0 0), (460 0), (460 100), (400 100), (400 428), (0 428) ] }
 ROOM { id: Flur, layer: 1-EG, position: (EZ-3)+(12 0), points: [(0 0), (0 -360), (224 -360), (224 0) ] }
 
+SLOPE { id:Slope-EZ-W, layer: 1-EG, position: (EZ-6), points: [(0 0), (0 -200), (100 -200), (100 0)]}
+ZDIM { layer: 1-EG, position: (Slope-EZ-W-TOP), lower_height: 0, upper_height: 100 }
+ZDIM { layer: 1-EG, position: (Slope-EZ-W-BOTTOM), lower_height: 0, upper_height: 240 }
+ZDIM { layer: 1-EG, position: (Slope-EZ-W-RIGHT), lower_height: 0, upper_height: 123 }
+ZDIM { layer: 1-EG, position: (Slope-EZ-W-LEFT), lower_height: 0, upper_height: 321 }
+
 OPENING { 
     id: RC-EZ-Flur, layer: 1-EG, position: (EZ-2)+(-2 0), 
     points: [
@@ -92,7 +98,7 @@ KNX_TOUCH_SENSOR { id: KNX-TS-1, layer: 1-EG, position: (KNX-BI-1-RIGHT)}
 SOCKET_POWER { id: SOCKP-1, layer: 1-EG, position: (KNX-TS-1-RIGHT)}
 KNX_BUS_INTERFACE { id: KNX-BI-2, layer: 1-EG, rotation: 90 }
 KNX_TOUCH_SENSOR { id: KNX-TS-2, layer: 1-EG, anchor: >TOP, position: (KNX-BI-2-RIGHT)}
-SOCKET_POWER { id: SOCKP-2, layer: 1-EG, rotation: 90, position: (KNX-TS-2-BOTTOM)}
+#SOCKET_POWER { id: SOCKP-2, layer: 1-EG, rotation: 90, position: (KNX-TS-2-BOTTOM)}
 KNX_BUS_INTERFACE { id: KNX-BI-3, layer: 1-EG, rotation: 180 }
 KNX_TOUCH_SENSOR { id: KNX-TS-3, layer: 1-EG, anchor: >RIGHT, position: (KNX-BI-3-RIGHT)}
 SOCKET_POWER { id: SOCKP-3, layer: 1-EG, rotation: 180, position: (KNX-TS-3-LEFT)}

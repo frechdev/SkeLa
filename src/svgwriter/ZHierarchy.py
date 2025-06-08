@@ -4,6 +4,7 @@ from model.AreaDimension import AreaDimension
 from model.Component import Component
 from model.Dimension import Dimension
 from model.Furniture import Furniture
+from model.Slope import Slope
 from model.ZDimension import ZDimension
 from model.debug.Axes import Axes
 from model.debug.DebugLabel import DebugLabel
@@ -25,6 +26,7 @@ from model.Steps import Steps
 z_hierarchy = [
     Outline,
     Room,
+    Slope,
     Stairs,
     Steps,
     Opening,
