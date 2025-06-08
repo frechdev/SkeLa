@@ -11,14 +11,14 @@ from model.Component import Component
 
 class Anchor(Enum):
     CENTER = (0.5, 0.5)
-    TOP = (0.5, 0.0)
-    BOTTOM = (0.5, 1.0)
+    TOP = (0.5, 1.0)
+    BOTTOM = (0.5, 0.0)
     LEFT = (0.0, 0.5)
     RIGHT = (1.0, 0.5)
-    TOP_LEFT = (0.0, 0.0)
-    TOP_RIGHT = (1.0, 0.0)
-    BOTTOM_LEFT = (0.0, 1.0)
-    BOTTOM_RIGHT = (1.0, 1.0)
+    TOP_LEFT = (0.0, 1.0)
+    TOP_RIGHT = (1.0, 1.0)
+    BOTTOM_LEFT = (0.0, 0.0)
+    BOTTOM_RIGHT = (1.0, 0.0)
 
 class ReferenceableComponent(PlanComponent, ABC):
     id: str

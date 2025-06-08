@@ -11,6 +11,14 @@ Es ist vorgekommen, dass eine "TOP"- oder "BOTTOM"-Anker-Abfrage nicht den korre
 ### Dimensionierung in Furniture
 Es soll konkret möglich sein, dass man auch den Einrichtungsplan bemaßen kann. Es ist zu Prüfen ob die Umsetzung so möglich ist, dass generell auch ein Element einem oder mehreren beliebigen Plantypen zugewiesen werden kann.
 
+## Release: v00.001.04.00
+### #0004: TOP- und BOTTOM- Anker vertauscht
+Wird als Position von auf einen "TOP"- oder "BOTTOM"-Anker einer Node referenziert, erscheint das Objekt entsprechend unten bei "TOP" oder oben bei "BOTTOM". Richtig wäre die Vertauschung
+
+*Fehleranalyse:* Bei der Instanziierung des ```Anchor```-Enums wurde ```BOTTOM = (0.5, 1.0)``` und ```TOP = (0.5, 0.0)``` festgelegt (analog für ```TOP_LEFT``` usw.). Dies ist nicht korrekt, da die y-Achse der Zeichnung von "unten" nach "oben" in der Zeichnung geht.
+
+*Fehlerbehandlung:* Die y-Koordinaten der Festlegungen für ```TOP```, ```BOTTOM```, ```TOP_LEFT```, ```TOP_RIGHT```, ```BOTTOM_LEFT```, ```BOTTOM_RIGHT``` wurden invertiert.
+
 ## Release: v00.001.03.00
 ### #0003: Dokument-Einheiten konsolidieren
 Das Dokument soll im <svg>-Tag mit einer Breite und Höhe in cm sowie einer ViewBox, die alle im Dokument verwendeten Maße automatisch in cm umwandelt ausgestattet werden. Ggf. sind einige Maße im Dokument zu überarbeiten. Im idealfall wird dann auch der Maßstab über ein "scaling" möglich. Weitere daraus folgenden Vereinfachungen sind zu prüfung.
